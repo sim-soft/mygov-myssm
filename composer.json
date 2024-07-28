@@ -1,0 +1,38 @@
+{
+  "name": "my-gov/myssm",
+  "description": "A parser and validate Malaysian business registration numbers (BRN). This library ensures compliance with SSM formatting standards, accurately extracts components such as entity type and registration year, and verifies the integrity of BRNs.",
+  "keywords": [
+    "myssm",
+    "suruhanjaya syarikat malaysia",
+    "business registration number",
+    "brn"
+  ],
+  "type": "library",
+  "license": "MIT",
+  "minimum-stability": "stable",
+  "require": {
+    "php": ">=8.2"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "*",
+    "phpmd/phpmd": "*",
+    "phpstan/phpstan": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "MyGOV\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/"
+    }
+  },
+  "scripts": {
+    "test": "phpunit --display-deprecations --display-warnings tests",
+    "qc": [
+      "phpstan analyse --memory-limit=512M",
+      "phpmd src text phpmd.xml"
+    ]
+  }
+}
