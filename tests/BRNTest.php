@@ -50,8 +50,9 @@ class BRNTest extends TestCase
             'BRNClassic (ROC) Invalid' => ['bc0053-B', false, false, null, null, null, false, false, null, null, false],
 
             'BRNClassic (ROB) 1' => ['AC0000003-D', true, false, null, null, null, false, true, 'AC0000003', 'D', true],
-            'BRNClassic (ROB) 2' => ['JM0125034-M', true, false, null, null, null, false, true, 'JM0125034', 'M', true],
-            'BRNClassic (ROB) 3' => ['000125034-M', true, false, null, null, null, false, true, '000125034', 'M', true],
+            'BRNClassic (ROB) 2' => ['000125034-M', true, false, null, null, null, false, true, '000125034', 'M', true],
+            'BRNClassic (ROB) 3' => ['JM0125034-M', true, false, null, null, null, false, true, 'JM0125034', 'M', true],
+            'BRNClassic (ROB) 3 with space' => ['JM 0125034-M', true, false, null, null, null, false, true, 'JM0125034', 'M', true],
             'BRNClassic (ROB) Invalid' => ['AA00188141-T', false, false, null, null, null, false, false, null, null, false],
             'BRNClassic (ROB) Invalid 2' => ['AA001Z8141-T', false, false, null, null, null, false, false, null, null, false],
 

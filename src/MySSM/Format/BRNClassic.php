@@ -11,7 +11,7 @@ use MyGOV\MySSM\Format\Enums\EntityCode;
  */
 class BRNClassic extends BRNFormat
 {
-    const ROB_REGEX = '/\b([A-Z]{2}\d{7}[A-Z]|\d{9}[A-Z])\b/'; // Extract 10 alphanumeric characters, last character is an alphabet
+    const ROB_REGEX = '/\b([A-Z]{2}\s?\d{7}[A-Z]|\d{9}[A-Z])\b/'; // Extract 10 alphanumeric characters, last character is an alphabet
     const ROC_REGEX = '/\b[0-9]\d{0,6}[A-Z]\b/'; // Extract numeric parts with max 7 digits and last character being an alphabet
 
     const ROB_MAX_LENGTH = 10;
@@ -47,6 +47,7 @@ class BRNClassic extends BRNFormat
             return false;
         }
 
+        $this->brn = str_replace(' ', '', $this->brn);
         $this->entityType = strlen($this->brn) === static::ROB_MAX_LENGTH
             ? EntityCode::Business
             : EntityCode::LocalCompany;
