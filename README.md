@@ -207,5 +207,5 @@ if ($brn->isValid()) {
 
 ## License
 
-The Simsoft Validator is licensed under the MIT License. See
+The Simsoft MyGOV/MySSM is licensed under the MIT License. See
 the [LICENSE](LICENSE) file for details
