@@ -95,6 +95,16 @@ abstract class BRNFormat
     }
 
     /**
+     * Get entity type.
+     *
+     * @return EntityCode|null
+     */
+    public function getEntityType(): ?EntityCode
+    {
+        return $this->isValid() ? $this->entityType : null;
+    }
+
+    /**
      * Get error message.
      *
      * @return string|null

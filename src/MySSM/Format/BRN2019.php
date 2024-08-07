@@ -109,7 +109,7 @@ class BRN2019 extends BRNFormat
      *
      * @return string|null
      */
-    public function getEntityType(): ?string
+    public function getEntityTypeName(): ?string
     {
         return $this->entityType?->getName();
     }

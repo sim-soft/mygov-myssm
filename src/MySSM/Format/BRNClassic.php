@@ -11,8 +11,13 @@ use MyGOV\MySSM\Format\Enums\EntityCode;
  */
 class BRNClassic extends BRNFormat
 {
-    const ROB_REGEX = '/\b([A-Z]{2}\s?\d{7}[A-Z]|\d{9}[A-Z])\b/'; // Extract 10 alphanumeric characters, last character is an alphabet
-    const ROC_REGEX = '/\b[0-9]\d{0,6}[A-Z]\b/'; // Extract numeric parts with max 7 digits and last character being an alphabet
+    const ROB_REGEX = '/\b([A-Z]{2}[\s-]?\d{7}[\s-]?[A-Z]|\d{9}[\s-]?[A-Z])\b/'; // Extract 10 alphanumeric characters, last character is an alphabet
+    const ROC_REGEX = '/\b\d{3,7}[\s-]?[A-Z]\b/'; // Extract numeric parts with max 7 digits and last character being an alphabet
+    const AF_REGEX = '/\bAF\d{3,6}\b/';
+    const LLP_REGEX = '/\bLLP\d{7}[\s-]?(LGN|LCA)\b/';
+
+    // Regex pattern: AZ1234567-A | 123456789-A | 123-A or 1234567-A | LLP1234567-LGN or LLP1234567-LCA | AF123 or AF123456 | LL123-A or LL123456-A
+    const REGEX = '/\b([A-Z]{2}[\s-]?\d{7}[\s-]?[A-Z]|\d{9}[\s-]?[A-Z]|\d{3,7}[\s-]?[A-Z]|LLP\d{7}[\s-]?(LGN|LCA)|AF\d{3,6}|L{2}\d{3,6}[\s-]?[A-Z]?)\b/';
 
     const ROB_MAX_LENGTH = 10;
     const ROB_SEQUENCE_NUM_LENGTH = 9;
@@ -29,9 +34,7 @@ class BRNClassic extends BRNFormat
      */
     public static function extract(string $brnText): ?string
     {
-        if (preg_match(static::ROB_REGEX, $brnText, $matches)
-            || preg_match(static::ROC_REGEX, $brnText, $matches)
-        ) {
+        if (preg_match(static::REGEX, $brnText, $matches)) {
             return $matches[0];
         }
 
@@ -47,7 +50,29 @@ class BRNClassic extends BRNFormat
             return false;
         }
 
-        $this->brn = str_replace(' ', '', $this->brn);
+        $this->brn = str_replace([' ', '-'], '', $this->brn);
+
+        if (str_starts_with($this->brn, 'LLP')) {
+            $this->entityType = EntityCode::LLP;
+            $this->checkDigit = substr($this->brn, -3);
+            $this->sequenceNumber = rtrim($this->brn, $this->checkDigit);
+            return true;
+        }
+
+        if (str_starts_with($this->brn, 'AF')) {
+            $this->entityType = EntityCode::LLP;
+            $this->checkDigit = null;
+            $this->sequenceNumber = $this->brn;
+            return true;
+        }
+
+        if (str_starts_with($this->brn, 'LL')) {
+            $this->entityType = EntityCode::LocalCompany;
+            $this->checkDigit = null;
+            $this->sequenceNumber = $this->brn;
+            return true;
+        }
+
         $this->entityType = strlen($this->brn) === static::ROB_MAX_LENGTH
             ? EntityCode::Business
             : EntityCode::LocalCompany;
@@ -92,7 +117,10 @@ class BRNClassic extends BRNFormat
      */
     public function toFormal(): ?string
     {
-        return $this->isValid() ? $this->getSequenceNumber() . "-$this->checkDigit" : null;
+        if ($this->isValid()) {
+            return $this->checkDigit ? $this->getSequenceNumber() . "-$this->checkDigit" : $this->getSequenceNumber();
+        }
+        return null;
     }
 
     /**
@@ -103,8 +131,16 @@ class BRNClassic extends BRNFormat
     public function getSequenceNumber(): ?string
     {
         if ($this->isValid()) {
-            if ($this->entityType !== EntityCode::Business && $this->leadingZeros) {
-                return str_pad((string)$this->sequenceNumber, static::ROC_SEQUENCE_NUM_LENGTH, '0', STR_PAD_LEFT);
+            if ($this->leadingZeros
+                && $this->entityType !== EntityCode::Business
+                && preg_match('/^[1-9]/', (string)$this->sequenceNumber)
+            ) {
+                return str_pad(
+                    (string)$this->sequenceNumber,
+                    static::ROC_SEQUENCE_NUM_LENGTH,
+                    '0',
+                    STR_PAD_LEFT
+                );
             }
             return $this->sequenceNumber;
         }

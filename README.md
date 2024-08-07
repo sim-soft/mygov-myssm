@@ -31,7 +31,7 @@ try {
         echo $brn->format2019->isValid();               // true
         echo $brn->format2019->getYear();               // 2019
         echo $brn->format2019->getEntityCode();         // 01
-        echo $brn->format2019->getEntityType();         // Local Companies
+        echo $brn->format2019->getEntityTypeName();     // Local Companies
         echo $brn->format2019->getSequenceNumber();     // 000005
         echo $brn->format2019->is(EntityCode::Business);// false
 
@@ -49,7 +49,7 @@ try {
         echo $brn->format2019->isValid();               // true
         echo $brn->format2019->getYear();               // 2020
         echo $brn->format2019->getEntityCode();         // 03
-        echo $brn->format2019->getEntityType();         // Business (ROB)
+        echo $brn->format2019->getEntityTypeName();     // Business (ROB)
         echo $brn->format2019->getSequenceNumber();     // 000005
         echo $brn->format2019->is(EntityCode::Business);// true
 
@@ -67,7 +67,7 @@ try {
         echo $brn->format2019->isValid();               // false
         echo $brn->format2019->getYear();               // null
         echo $brn->format2019->getEntityCode();         // null
-        echo $brn->format2019->getEntityType();         // null
+        echo $brn->format2019->getEntityTypeName();     // null
         echo $brn->format2019->getSequenceNumber();     // null
         echo $brn->format2019->is(EntityCode::Business);// false
 
@@ -85,7 +85,7 @@ try {
         echo $brn->format2019->isValid();                   // false
         echo $brn->format2019->getYear();                   // null
         echo $brn->format2019->getEntityCode();             // null
-        echo $brn->format2019->getEntityType();             // null
+        echo $brn->format2019->getEntityTypeName();         // null
         echo $brn->format2019->getSequenceNumber();         // null
         echo $brn->format2019->is(EntityCode::Business);    // false
 
@@ -145,7 +145,7 @@ try {
         echo $brn->format2019->isValid();               // true
         echo $brn->format2019->getYear();               // 2020
         echo $brn->format2019->getEntityCode();         // 03
-        echo $brn->format2019->getEntityType();         // Business (ROB)
+        echo $brn->format2019->getEntityTypeName();     // Business (ROB)
         echo $brn->format2019->getSequenceNumber();     // 000005
         echo $brn->format2019->is(EntityCode::Business);// true
 
@@ -171,7 +171,7 @@ if ($brn->isValid()) {
     echo $brn->format2019->isValid();               // true
     echo $brn->format2019->getYear();               // 2010
     echo $brn->format2019->getEntityCode();         // 01
-    echo $brn->format2019->getEntityType();         // Local Companies
+    echo $brn->format2019->getEntityTypeName();     // Local Companies
     echo $brn->format2019->getSequenceNumber();     // 000005
     echo $brn->format2019->is(EntityCode::Business);// false
 
@@ -193,7 +193,7 @@ if ($brn->isValid()) {
     echo $brn->format2019->isValid();               // true
     echo $brn->format2019->getYear();               // 1990
     echo $brn->format2019->getEntityCode();         // 03
-    echo $brn->format2019->getEntityType();         // Business (ROB)
+    echo $brn->format2019->getEntityTypeName();     // Business (ROB)
     echo $brn->format2019->getSequenceNumber();     // 000005
     echo $brn->format2019->is(EntityCode::Business);// true
 
