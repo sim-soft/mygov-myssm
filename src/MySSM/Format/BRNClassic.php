@@ -91,6 +91,21 @@ class BRNClassic extends BRNFormat
      */
     public static function make(?int $year = null, ?EntityCode $entityCode = null): string
     {
+        if ($entityCode === null || $entityCode === EntityCode::Business) {
+            if (rand(0, 1) == 1) {
+                return chr(rand(65, 90)) . chr(rand(65, 90))
+                    . str_pad(
+                        (string)rand(1, pow(10, static::ROB_SEQUENCE_NUM_LENGTH - 2) - 1),
+                        static::ROB_SEQUENCE_NUM_LENGTH - 2, '0', STR_PAD_LEFT
+                    ) . chr(rand(65, 90));
+            }
+
+            return str_pad(
+                    (string)rand(1, pow(10, static::ROB_SEQUENCE_NUM_LENGTH) - 1),
+                    static::ROB_SEQUENCE_NUM_LENGTH, '0', STR_PAD_LEFT
+                ) . chr(rand(65, 90));
+        }
+
         if (in_array($entityCode, [EntityCode::LocalCompany, EntityCode::ForeignCompany])) {
             return str_pad(
                     (string)rand(1, pow(10, static::ROC_SEQUENCE_NUM_LENGTH) - 1),
@@ -98,18 +113,24 @@ class BRNClassic extends BRNFormat
                 ) . chr(rand(65, 90));
         }
 
-        if (rand(0, 1) == 1) {
-            return chr(rand(65, 90)) . chr(rand(65, 90))
+        if (in_array($entityCode, [EntityCode::LLP, EntityCode::ForeignLLP, EntityCode::ProfessionalLLP])) {
+            if (rand(0, 1) == 1) {
+                return 'LLP'
+                    . str_pad(
+                        (string)rand(1, pow(10, 7)),
+                        7, '0', STR_PAD_LEFT
+                    ) . (rand(0, 1) == 1 ? 'LGN' : 'LCA');
+            }
+
+            $num = rand(3, 6);
+            return 'AF'
                 . str_pad(
-                    (string)rand(1, pow(10, static::ROB_SEQUENCE_NUM_LENGTH - 2) - 1),
-                    static::ROB_SEQUENCE_NUM_LENGTH - 2, '0', STR_PAD_LEFT
-                ) . chr(rand(65, 90));
+                    (string)rand(1, pow(10, $num - 2) - 1),
+                    $num - 2, '0', STR_PAD_LEFT
+                );
         }
 
-        return str_pad(
-                (string)rand(1, pow(10, static::ROB_SEQUENCE_NUM_LENGTH) - 1),
-                static::ROB_SEQUENCE_NUM_LENGTH, '0', STR_PAD_LEFT
-            ) . chr(rand(65, 90));
+        return '';
     }
 
     /**
