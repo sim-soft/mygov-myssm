@@ -56,7 +56,6 @@ class BRN
      */
     protected function parsing(): void
     {
-        //$brn = strtoupper(str_replace('-', '', $this->brnText));
         $brn = strtoupper($this->brnText);
 
         try {
