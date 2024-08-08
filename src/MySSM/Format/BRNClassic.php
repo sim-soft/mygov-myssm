@@ -91,7 +91,11 @@ class BRNClassic extends BRNFormat
      */
     public static function make(?int $year = null, ?EntityCode $entityCode = null): string
     {
-        if ($entityCode === null || $entityCode === EntityCode::Business) {
+        if ($entityCode === null) {
+            $entityCode = [EntityCode::Business, EntityCode::LocalCompany, EntityCode::LLP][rand(0, 2)];
+        }
+
+        if ($entityCode === EntityCode::Business) {
             if (rand(0, 1) == 1) {
                 return chr(rand(65, 90)) . chr(rand(65, 90))
                     . str_pad(
@@ -117,7 +121,7 @@ class BRNClassic extends BRNFormat
             if (rand(0, 1) == 1) {
                 return 'LLP'
                     . str_pad(
-                        (string)rand(1, pow(10, 7)),
+                        (string)rand(1, pow(10, 7) - 1),
                         7, '0', STR_PAD_LEFT
                     ) . (rand(0, 1) == 1 ? 'LGN' : 'LCA');
             }
@@ -126,7 +130,7 @@ class BRNClassic extends BRNFormat
             return 'AF'
                 . str_pad(
                     (string)rand(1, pow(10, $num - 2) - 1),
-                    $num - 2, '0', STR_PAD_LEFT
+                    $num, '0', STR_PAD_LEFT
                 );
         }
 

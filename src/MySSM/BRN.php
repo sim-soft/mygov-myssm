@@ -147,6 +147,9 @@ class BRN
     ): ?static
     {
         try {
+            if ($entityCode === null) {
+                $entityCode = [EntityCode::Business, EntityCode::LocalCompany][rand(0, 1)];
+            }
 
             return new static(implode(' ', [
                 BRN2019::make($year, $entityCode),
