@@ -17,7 +17,7 @@ class BRNClassic extends BRNFormat
     const LLP_REGEX = '/\bLLP\d{7}[\s-]?(LGN|LCA)\b/';
 
     // Regex pattern: AZ1234567-A | 123456789-A | 123-A or 1234567-A | LLP1234567-LGN or LLP1234567-LCA | AF123 or AF123456 | LL123-A or LL123456-A
-    const REGEX = '/\b([A-Z]{2}[\s-]?\d{7}[\s-]?[A-Z]|\d{9}[\s-]?[A-Z]|\d{3,7}[\s-]?[A-Z]|LLP\d{7}[\s-]?(LGN|LCA)|AF\d{3,6}|L{2}\d{3,6}[\s-]?[A-Z]?)\b/';
+    const REGEX = '/\b([A-Z]{2}[\s-]?\d{7}[\s-]?[A-Z]|\d{9}[\s-]?[A-Z]|\d{3,7}[\s-]?[A-Z]|(LLP)?\d{7}[\s-]?(LGN|LCA)|AF\d{3,6}|L{2}\d{3,6}[\s-]?[A-Z]?)\b/';
 
     const ROB_MAX_LENGTH = 10;
     const ROB_SEQUENCE_NUM_LENGTH = 9;
@@ -52,7 +52,10 @@ class BRNClassic extends BRNFormat
 
         $this->brn = str_replace([' ', '-'], '', $this->brn);
 
-        if (str_starts_with($this->brn, 'LLP')) {
+        if (str_starts_with($this->brn, 'LLP')
+            || str_ends_with($this->brn, 'LGN')
+            || str_ends_with($this->brn, 'LCA')
+        ) {
             $this->entityType = EntityCode::LLP;
             $this->checkDigit = substr($this->brn, -3);
             $this->sequenceNumber = rtrim($this->brn, $this->checkDigit);

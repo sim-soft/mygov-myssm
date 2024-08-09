@@ -58,6 +58,10 @@ class BRNTest extends TestCase
 
             'BRNClassic (LLP-LGN)' => ['LLP0027514-LGN', true, false, null, null, null, true, 'LLP0027514', 'LGN', EntityCode::LLP],
             'BRNClassic (LLP-LCA)' => ['LLP1234567-LCA', true, false, null, null, null, true, 'LLP1234567', 'LCA', EntityCode::LLP],
+            'BRNClassic (LLP-old-LGN)' => ['1234567-LGN', true, false, null, null, null, true, '1234567', 'LGN', EntityCode::LLP],
+            'BRNClassic (LLP-old-LCA)' => ['1234567-LCA', true, false, null, null, null, true, '1234567', 'LCA', EntityCode::LLP],
+            'BRNClassic (LLP-old-LGN) Invalid' => ['134567-LCA', false, false, null, null, null, false, null, null, null],
+            'BRNClassic (LLP-old-LCA) Invalid' => ['123457-LCA', false, false, null, null, null, false, null, null, null],
             'BRNClassic (LLP-LCA) Invalid' => ['LLP12345-LCA', false, false, null, null, null, false, null, null, null],
             'BRNClassic (LLP-LCA) Invalid 2' => ['LLP1234567-ABC', false, false, null, null, null, false, null, null, null],
             'BRNClassic (LLP-AF)' => ['AF123456', true, false, null, null, null, true, 'AF123456', null, EntityCode::LLP],
